@@ -1,4 +1,4 @@
-import { FaDiscord, FaTwitch, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaDiscord, FaTwitch, FaTwitter, FaYoutube, FaGithub } from "react-icons/fa";
 
 export const NAV_ITEMS = [
   { label: "TRAILER", href: "#hero" },
@@ -13,6 +13,10 @@ export const LINKS = {
 } as const;
 
 export const SOCIAL_LINKS = [
+  {
+    href: "https://github.com/Yashshukla11/CodeCircuit",
+    icon: FaGithub,
+  },
   {
     href: "https://discord.com",
     icon: FaDiscord,
