@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { TiLocationArrow } from "react-icons/ti";
 import { useWindowScroll } from "react-use";
@@ -16,7 +16,6 @@ export const Navbar = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isNavVisible, setIsNavVisible] = useState(false);
 
   const { y: currentScrollY } = useWindowScroll();
 
@@ -32,13 +31,10 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (currentScrollY === 0) {
-      setIsNavVisible(true);
       navContainerRef.current?.classList.remove("floating-nav");
     } else if (currentScrollY > lastScrollY) {
-      setIsNavVisible(false);
       navContainerRef.current?.classList.add("floating-nav");
     } else if (currentScrollY < lastScrollY) {
-      setIsNavVisible(true);
       navContainerRef.current?.classList.add("floating-nav");
     }
 

@@ -1,5 +1,3 @@
-import type { PropsWithChildren } from "react";
-import type { IconType } from "react-icons";
 import { forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
