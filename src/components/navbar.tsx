@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { TiLocationArrow } from "react-icons/ti";
 import { useWindowScroll } from "react-use";
@@ -46,29 +46,29 @@ export const Navbar = () => {
   }, [currentScrollY, lastScrollY]);
 
   useEffect(() => {
-    gsap.to(navContainerRef.current, {
-      y: isNavVisible ? 0 : -100,
-      opacity: isNavVisible ? 1 : 0,
-      duration: 0.2,
-    });
-  }, [isNavVisible]);
+    gsap.fromTo(
+      navContainerRef.current,
+      { y: -100, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }
+    );
+  }, []);
 
   return (
     <header
       ref={navContainerRef}
-      className="fixed inset-x-0 top-4 z-50 h-16 border-none transition-all duration-700 sm:inset-x-6"
+      className="fixed inset-x-0 top-4 z-50 h-16 border-none backdrop-blur-md bg-black/30 transition-all duration-700 sm:inset-x-6"
     >
       <div className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4">
           <div className="flex items-center gap-7">
-            <a href="#hero" className="transition hover:opacity-75">
+            <a href="#hero" className="transition-transform hover:scale-110 hover:shadow-lg duration-300">
               <img src="/img/logo.png" alt="Logo" className="w-10" />
             </a>
 
             <Button
               id="product-button"
               rightIcon={TiLocationArrow}
-              containerClass="bg-blue-50 md:flex hidden items-center justify-center gap-1"
+              containerClass="bg-blue-50 md:flex hidden items-center justify-center gap-1 transition-transform duration-300 hover:scale-105 hover:bg-yellow-300"
             >
               Products
             </Button>
@@ -77,8 +77,13 @@ export const Navbar = () => {
           <div className="flex h-full items-center">
             <div className="hidden md:block">
               {NAV_ITEMS.map(({ label, href }) => (
-                <a key={href} href={href} className="nav-hover-btn">
-                  {label}
+                <a
+                  key={href}
+                  href={href}
+                  className="nav-hover-btn group relative overflow-hidden px-3 py-1"
+                >
+                  <span className="relative z-10">{label}</span>
+                  <span className="absolute left-0 bottom-0 h-0.5 w-full scale-x-0 bg-yellow-300 transition-transform duration-300 group-hover:scale-x-100" />
                 </a>
               ))}
             </div>
@@ -86,7 +91,10 @@ export const Navbar = () => {
             <div className="flex items-center gap-4">
               <button
                 onClick={toggleAudioIndicator}
-                className="ml-10 flex items-center space-x-1 p-2 transition hover:opacity-75"
+                className={cn(
+                  "ml-10 flex items-center space-x-1 p-2 transition hover:opacity-75",
+                  isIndicatorActive && "animate-pulse-audio"
+                )}
                 title="Play Audio"
               >
                 <audio
@@ -116,7 +124,7 @@ export const Navbar = () => {
                 href={LINKS.sourceCode}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="transition hover:opacity-75"
+                className="transition-transform hover:rotate-12 hover:scale-125 duration-300"
                 title="Source Code"
               >
                 <FaGithub className="size-5 text-white" />
